@@ -73,4 +73,32 @@ def emoji_helper(selected_user,df):
 
 
 def monthly_timeline(selected_user,df):
-    
+    if selected_user!='Overall':
+        df=df[df['user']==selected_user]
+    df['month_num']=df['date'].dt.month
+    timeline=df.groupby(['year','month_num','month'])['message'].count().reset_index()
+    time=[]
+    for i in range(timeline.shape[0]):
+        time.append(str(timeline.iloc[i]['month'])+'-'+str(timeline.iloc[i]['year']))
+    timeline['time']=time
+
+    return timeline
+
+def daily_timeline(selected_user,df):
+    if selected_user !='Overall':
+        df=df[df['user']==selected_user]
+
+    df['only_date']=df['date'].dt.date
+    daily_timeline=df.groupby('only_date')['message'].count().reset_index()
+
+    return daily_timeline
+
+def week_activity_map(selected_user,df):
+    if selected_user !='Overall':
+        df=df[df['user']==selected_user]
+
+    df['day_name']=df['date'].dt.day_name()
+
+    ans_df=df['day_name'].value_counts()
+
+    return ans_df

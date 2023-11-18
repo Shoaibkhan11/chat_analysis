@@ -79,3 +79,36 @@ if uploaded_file is not None:
             fig,ax=plt.subplots()
             ax.pie(emoji_df[1].head(),labels=emoji_df[0].head(),autopct="%0.2f")
             st.pyplot(fig)
+
+
+        st.title('Monthly Timeline Analysis')
+
+        timeline=helper.monthly_timeline(selected_user,df)
+
+        fig,ax=plt.subplots()
+        ax.plot(timeline['time'],timeline['message'])
+        plt.xticks(rotation='vertical')
+        st.pyplot(fig)
+
+
+        st.title("Daily Timeline Analysis")
+
+        daily_timeline=helper.daily_timeline(selected_user,df)
+
+        fig,ax=plt.subplots()
+
+        ax.plot(daily_timeline['only_date'],daily_timeline['message'],color='green')
+        plt.xticks(rotation='vertical')
+        st.pyplot(fig)
+
+        st.title('Activity Map')
+
+        col1,col2=st.columns(2)
+
+        with col1:
+            st.header('Most Busy Days')
+            busy_day=helper.week_activity_map(selected_user,df)
+            fig,ax=plt.subplots()
+            ax.bar(busy_day.index,busy_day.values,color='purple')
+            plt.xticks(rotation='vertical')
+            st.pyplot(fig)

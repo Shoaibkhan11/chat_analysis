@@ -2,7 +2,6 @@ pandas
 Counter
 emoji
 urlextract
-re
 streamlit
 matplotlib
 seaborn

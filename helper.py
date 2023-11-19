@@ -102,3 +102,28 @@ def week_activity_map(selected_user,df):
     ans_df=df['day_name'].value_counts()
 
     return ans_df
+
+
+def month_activity_map(selected_user,df):
+    if selected_user != 'Overall':
+        df=df[df['user']==selected_user]
+
+    ans_df=df['month'].value_counts()
+
+    return ans_df
+
+def activity_heatmap(selected_user,df):
+    if selected_user !='Overall':
+        df=df[df['user']==selected_user]
+
+    period=[]
+    for hour in df['hour']:
+        if hour==23:
+            period.append(str(hour)+'-'+'00')
+        elif hour==0:
+            period.append('00'+'-'+str(hour+1))
+        else:
+            period.append(str(hour)+'-'+str(hour+1))
+    df['period']=period
+    ans_df=df.pivot_table(index='day_name',columns='period',values='message',aggfunc='count')
+    return ans_df

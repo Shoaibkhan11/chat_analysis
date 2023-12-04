@@ -11,7 +11,15 @@ def preprocess(data):
         except:
             num = int(df['message_date'][i][0:1])
         if num > 12:
-            df['message_date'] = pd.to_datetime(df['message_date'], format="%d/%m/%y, %H:%M - ")
+            try:
+                temp = int(df['message_date'][1][6:10])
+                flag = True
+            except:
+                flag = False
+            if flag:
+                df['message_date'] = pd.to_datetime(df['message_date'], format="%d/%m/%Y, %H:%M - ")
+            else:
+                df['message_date'] = pd.to_datetime(df['message_date'], format="%d/%m/%y, %H:%M - ")
             break
     else:
         df['message_date'] = pd.to_datetime(df['message_date'], format="%m/%d/%y, %H:%M - ")
